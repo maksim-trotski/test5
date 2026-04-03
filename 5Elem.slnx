@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="5Elem.API/5Elem.API.csproj" />
+  <Project Path="5Elem.Client/5Elem.Client.csproj" Id="dc764f0f-99db-4a60-9d2d-55620e885f03" />
+  <Project Path="5Elem.Shared/5Elem.Shared.csproj" Id="f86ea163-761b-4591-932b-7a5724b82c8d" />
+</Solution>

@@ -1,0 +1,300 @@
+# .NET build output
+bin/
+obj/
+out/
+build/
+publish/
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# Visual Studio specific
+.vs/
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Build results
+*.dll
+*.exe
+*.pdb
+*.nupkg
+*.nuget.props
+*.nuget.targets
+
+# Test results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# Logs
+*.log
+*.logs
+logs/
+LogFiles/
+
+# Entity Framework
+Migrations/
+*.efbundle
+
+# Runtime
+*.cache
+*.tmp
+*.temp
+*.pid
+*.seed
+*.pid.lock
+
+# User secrets
+secrets.json
+appsettings.Development.json
+appsettings.Production.json
+*secrets*.json
+
+# Database files
+*.mdf
+*.ldf
+*.bak
+*.db
+*.sqlite
+*.sqlite3
+
+# Backup files
+*.backup
+*.old
+*.orig
+
+# Package Manager Console
+packages/
+*.nupkg
+*.snupkg
+
+# Publish profiles
+*.pubxml.user
+*.pubxml.*.user
+PublishProfiles/
+
+# Code coverage
+*.coverage
+*.coveragexml
+*.dotCover
+
+# IDE settings
+*.csproj.user
+*.vbproj.user
+*.fsproj.user
+
+# Azure Functions
+*.__azurite_*
+__azurite_*
+
+# Windows image cache
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Linux
+*~
+.directory
+*.swp
+*.swo
+
+# Node.js (if any)
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Python (if any)
+__pycache__/
+*.py[cod]
+*.so
+.Python
+
+# Docker
+*.dockerignore
+docker-compose*.yml
+.docker/
+Dockerfile*
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Local configuration files
+*.local.*
+**/local.settings.json
+
+# Certificate files
+*.pfx
+*.p12
+*.cer
+*.crt
+*.key
+
+# Generated documentation
+docs/_build/
+docs/api/
+*.chm
+*.epub
+*.mobi
+
+# Temporary files
+*.tmp
+*.temp
+*~
+*.~sn~
+
+# Visual Studio cache files
+*.vs/
+.vs/
+*.vsp
+*.vspx
+*.sap
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+*.DotSettings.user
+
+# StyleCop
+StyleCopReport.xml
+
+# Crash reports
+crashlytics-build.properties
+crash.dump
+
+# Publish output
+/publish/
+/published/
+
+# Package downloads
+*.download
+
+# PerfView
+*.etl
+
+# Fody
+FodyWeavers.xsd
+_fody/
+
+# CodeRush
+cr_cache/
+
+# NCrunch
+*.ncrunch*
+.*crunch*.local.xml
+
+# MightyMoose
+*.mm.*
+AutoTest.Net/
+
+# Web load test
+*.webtest
+
+# SonarLint
+.sonarlint/
+
+# Windows Service
+*.exe.config
+*.exe.config.tmp
+
+# SQL Server files
+*.mdf
+*.ldf
+*.ndf
+
+# Azure
+csx/
+*.tmpg.csx
+*.publishsettings
+publishsettings.json
+
+# NuGet
+*.nuget.props
+*.nuget.targets
+nuget.exe
+.nuget/
+NuGet.config
+nuget.config
+
+# Build tools
+tools/
+libman.json
+package.json
+
+# VS Code
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/extensions.json
+
+# Bower
+bower_components/
+
+# Minified JS/CSS
+*.min.js
+*.min.css
+
+# ImageKit local cache (если используете ImageKit)
+imagekit_cache/
+
+# Cloudinary local cache (если используете Cloudinary)
+cloudinary_cache/
+
+# Local database connection files
+connectionstrings.json
+db_connection.json
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# VS Code workspaces
+*.code-workspace
+
+# Profiling tools
+*.psess
+*.vsp
+*.psess
+*.vspx
+
+# Backup of NuGet Packages
+*.nupkg.bak
+
+# Crashlytics
+crashlytics-build.properties
+
+# Paket
+.paket/
+
+# FAKE
+.fake/
+
+# Scripts & tools
+tools/
+_tools/
+
+# Ignore local config
+*.local
+*.dev
+*.prod
