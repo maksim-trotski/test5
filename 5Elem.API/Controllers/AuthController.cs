@@ -20,11 +20,20 @@ namespace _5Elem.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            var result = await _authService.LoginAsync(request.Username, request.Password);
-            if (result == null)
-                return Unauthorized(new { message = "Invalid credentials" });
+            try
+            {
+                var result = await _authService.LoginAsync(request.Username, request.Password);
+                if (result == null)
+                    return Unauthorized(new { message = "Invalid credentials" });
 
-            return Ok(result);
+                Console.WriteLine("qwe");
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("qwerty " + ex);
+                return ControllerBase.Empty;
+            }
         }
 
         [HttpPost("register")]

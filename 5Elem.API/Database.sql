@@ -5,7 +5,6 @@ GO
 USE _5ElemCatalog;
 GO
 
--- Таблица пользователей
 CREATE TABLE Users (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     Username NVARCHAR(100) NOT NULL UNIQUE,
@@ -15,7 +14,6 @@ CREATE TABLE Users (
 );
 GO
 
--- Таблица категорий
 CREATE TABLE Categories (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     Name NVARCHAR(100) NOT NULL,
@@ -25,7 +23,6 @@ CREATE TABLE Categories (
 );
 GO
 
--- Таблица товаров
 CREATE TABLE Products (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     Name NVARCHAR(200) NOT NULL,
@@ -40,7 +37,6 @@ CREATE TABLE Products (
 );
 GO
 
--- Триггер для обновления UpdatedAt
 CREATE TRIGGER TR_Products_Update
 ON Products
 AFTER UPDATE
@@ -53,13 +49,11 @@ BEGIN
 END;
 GO
 
--- Индексы
 CREATE INDEX IX_Products_CategoryId ON Products(CategoryId);
 CREATE INDEX IX_Products_Name ON Products(Name);
 CREATE INDEX IX_Users_Username ON Users(Username);
 GO
 
--- Тестовый пользователь (admin / admin)
 INSERT INTO Users (Username, Email, PasswordHash) 
 VALUES ('admin', 'admin@example.com', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918');
 GO

@@ -1,4 +1,6 @@
 ﻿using _5Elem.Client.Dialogs;
+using _5Elem.Client.Models;
+using _5Elem.Client.Services;
 using _5Elem.Client.ViewModels.Base;
 using _5Elem.Shared.Models;
 using Microsoft.AspNetCore.Http;
@@ -11,12 +13,14 @@ namespace _5Elem.Client.ViewModels
 {
     public class ProductDialogViewModel : ViewModelBase
     {
+        private readonly ApiService _apiService;
         private ProductCreateDto _product;
         private string _selectedImagePath;
         private string _imageName;
 
         public ProductDialogViewModel(ProductDto existingProduct = null)
         {
+            _apiService = App.ApiService;
             _product = new ProductCreateDto();
 
             if (existingProduct != null)
@@ -78,23 +82,42 @@ namespace _5Elem.Client.ViewModels
             return !string.IsNullOrWhiteSpace(Product.Name) && Product.Price > 0 && Product.Stock >= 0;
         }
 
-        private void ExecuteSave()
+        private async Task ExecuteSave()
         {
-            if (!string.IsNullOrEmpty(_selectedImagePath))
+            try
             {
-                var fileInfo = new FileInfo(_selectedImagePath);
-                var fileBytes = File.ReadAllBytes(_selectedImagePath);
-                var stream = new MemoryStream(fileBytes);
-
-                Product.ImageFile = new FormFile(stream, 0, fileBytes.Length,
-                    fileInfo.Name, fileInfo.Name)
+                if (!string.IsNullOrEmpty(_selectedImagePath))
                 {
-                    Headers = new HeaderDictionary(),
-                    ContentType = GetContentType(fileInfo.Extension)
-                };
+                    var fileInfo = new FileInfo(_selectedImagePath);
+                    var fileBytes = File.ReadAllBytes(_selectedImagePath);
+                    var stream = new MemoryStream(fileBytes);
+
+                    Product.ImageFile = new FormFile(stream, 0, fileBytes.Length,
+                        fileInfo.Name, fileInfo.Name)
+                    {
+                        Headers = new HeaderDictionary(),
+                        ContentType = GetContentType(fileInfo.Extension)
+                    };
+                }
+
+                var result = await _apiService.CreateProductAsync(Product);
+
+                if (result != null)
+                {
+                    System.Windows.Application.Current.Windows.OfType<ProductDialog>().FirstOrDefault()?.Close();
+                }
+                else
+                {
+                    Console.WriteLine("Ошибка при создании товара");
+
+                }
+            }
+            catch (Exception ex)
+            {
+               Console.WriteLine(ex.ToString());
             }
 
-            System.Windows.Application.Current.Windows.OfType<ProductDialog>().FirstOrDefault()?.Close();
+            
         }
 
         private void ExecuteCancel()

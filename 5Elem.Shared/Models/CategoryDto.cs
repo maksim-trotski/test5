@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace _5Elem.Shared.Models
+﻿namespace _5Elem.Shared.Models
 {
     public class CategoryDto
     {
@@ -10,5 +6,8 @@ namespace _5Elem.Shared.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public string ImageUrl { get; set; }
+        public string ThumbnailUrl { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public int ProductsCount { get; set; }
     }
 }

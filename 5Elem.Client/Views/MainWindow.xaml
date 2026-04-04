@@ -48,6 +48,10 @@
                             <Button Content="+ Добавить товар"
                                     Style="{StaticResource SecondaryButton}"
                                     Command="{Binding AddProductCommand}"/>
+                            <Button Content="📁 Категории"
+                                    Style="{StaticResource SecondaryButton}"
+                                    Margin="10,0,0,0"
+                                    Command="{Binding OpenCategoriesCommand}"/> 
 
                             <Button Content="Выйти"
                                     Style="{StaticResource DangerButton}"

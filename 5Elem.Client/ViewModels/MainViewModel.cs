@@ -23,6 +23,7 @@ namespace _5Elem.Client.ViewModels
             _apiService = App.ApiService;
             _products = new ObservableCollection<ProductDto>();
 
+            OpenCategoriesCommand = new RelayCommand(_ => ExecuteOpenCategories());
             AddProductCommand = new RelayCommand(_ => ExecuteAddProduct());
             EditProductCommand = new RelayCommand(_ => ExecuteEditProduct(), _ => SelectedProduct != null);
             DeleteProductCommand = new RelayCommand(async _ => await ExecuteDeleteProduct(), _ => SelectedProduct != null);
@@ -65,6 +66,7 @@ namespace _5Elem.Client.ViewModels
 
         public string Username => App.Username;
 
+        public ICommand OpenCategoriesCommand { get; }
         public ICommand AddProductCommand { get; }
         public ICommand EditProductCommand { get; }
         public ICommand DeleteProductCommand { get; }
@@ -112,6 +114,14 @@ namespace _5Elem.Client.ViewModels
             {
                 IsLoading = false;
             }
+        }
+
+        private void ExecuteOpenCategories()
+        {
+            var categoriesWindow = new CategoriesWindow();
+            var categoriesViewModel = new CategoriesViewModel(_apiService);
+            categoriesWindow.DataContext = categoriesViewModel;
+            categoriesWindow.ShowDialog();
         }
 
         private void ExecuteAddProduct()

@@ -18,4 +18,10 @@
     <ProjectReference Include="..\5Elem.Shared\5Elem.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Dialogs\CategoryDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>
