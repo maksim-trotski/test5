@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace _5Elem.Shared.Models
+﻿namespace _5Elem.Shared.Models
 {
     public class LoginRequest
     {

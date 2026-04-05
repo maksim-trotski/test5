@@ -1,17 +1,19 @@
 ﻿<Application x:Class="_5Elem.Client.App"
-         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-         xmlns:converters="clr-namespace:_5Elem.Client.Converters"
-         StartupUri="Views/LoginWindow.xaml">
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:_5Elem.Client.Converters"
+             StartupUri="Views/LoginWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/5Elem.Client;component/Styles/Styles.xaml" />
+                <ResourceDictionary Source="Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            
+
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
             <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibility"/>
             <converters:BooleanToBrushConverter x:Key="BooleanToBrushConverter"/>
+            <converters:NullToVisibilityConverter x:Key="NullToVisibility"/>
+            <converters:InverseNullToVisibilityConverter x:Key="InverseNullToVisibility"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

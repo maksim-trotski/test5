@@ -1,13 +1,8 @@
 ﻿using _5Elem.Client.Services;
-using System.Configuration;
-using System.Data;
 using System.Windows;
 
 namespace _5Elem.Client
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
         public static ApiService ApiService { get; private set; }

@@ -1,4 +1,3 @@
--- Создание базы данных
 CREATE DATABASE _5ElemCatalog;
 GO
 

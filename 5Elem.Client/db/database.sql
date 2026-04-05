@@ -1,11 +1,9 @@
-﻿-- Создание базы данных
-CREATE DATABASE _5Elem;
+﻿CREATE DATABASE _5Elem;
 GO
 
 USE _5Elem;
 GO
 
--- Таблица пользователей
 CREATE TABLE Users (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     Username NVARCHAR(100) NOT NULL UNIQUE,
@@ -15,7 +13,6 @@ CREATE TABLE Users (
 );
 GO
 
--- Таблица категорий
 CREATE TABLE Categories (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     Name NVARCHAR(100) NOT NULL,
@@ -25,7 +22,6 @@ CREATE TABLE Categories (
 );
 GO
 
--- Таблица товаров
 CREATE TABLE Products (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     Name NVARCHAR(200) NOT NULL,
@@ -40,7 +36,6 @@ CREATE TABLE Products (
 );
 GO
 
--- Триггер для обновления UpdatedAt
 CREATE TRIGGER TR_Products_Update
 ON Products
 AFTER UPDATE
@@ -53,7 +48,6 @@ BEGIN
 END;
 GO
 
--- Индексы для производительности
 CREATE INDEX IX_Products_CategoryId ON Products(CategoryId);
 CREATE INDEX IX_Products_Name ON Products(Name);
 CREATE INDEX IX_Users_Username ON Users(Username);

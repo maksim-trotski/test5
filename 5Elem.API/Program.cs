@@ -7,11 +7,9 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-// Swagger with JWT support
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
@@ -47,16 +45,13 @@ builder.Services.AddSwaggerGen(c =>
     //});
 });
 
-// Database
 builder.Services.AddScoped<IDatabaseService, DatabaseService>();
 
-// Services
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddSingleton<IStorageService, ImageKitStorageService>();
 
-// JWT Authentication
 var jwtSecret = builder.Configuration["JWT:Secret"] ?? "default-secret-key-32-chars-long!!";
 var key = Encoding.UTF8.GetBytes(jwtSecret);
 
@@ -75,7 +70,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
-// CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>

@@ -76,7 +76,6 @@ namespace _5Elem.API.Services
         {
             try
             {
-                // ImageKit transformations через URL параметры
                 var baseUrl = imageUrl.Split('?')[0];
                 var thumbnailUrl = $"{baseUrl}?tr=w-{width},h-{height},c-at_max";
                 return await Task.FromResult(thumbnailUrl);
@@ -93,9 +92,7 @@ namespace _5Elem.API.Services
             {
                 var uri = new Uri(imageUrl);
                 var segments = uri.Segments;
-                // Последний сегмент - это fileId
                 var fileId = segments[^1];
-                // Убираем возможные query параметры
                 return fileId.Split('?')[0];
             }
             catch

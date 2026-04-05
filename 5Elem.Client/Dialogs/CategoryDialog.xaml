@@ -70,8 +70,7 @@
                     <Button Content="Сохранить" 
                             Style="{StaticResource PrimaryButton}"
                             Margin="10,0,0,0"
-                            Command="{Binding SaveCommand}"
-                            IsEnabled="{Binding CanSave}"/>
+                            Command="{Binding SaveCommand}"/>
                 </StackPanel>
 
                 <Button Content="✕"

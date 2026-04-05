@@ -10,7 +10,7 @@ namespace _5Elem.Client.Views
         public LoginWindow()
         {
             InitializeComponent();
-            this.MouseLeftButtonDown += (s, e) => this.DragMove();
+            MouseLeftButtonDown += (s, e) => this.DragMove();
             DataContext = new LoginViewModel();
         }
 

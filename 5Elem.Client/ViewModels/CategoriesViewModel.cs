@@ -25,8 +25,8 @@ namespace _5Elem.Client.ViewModels
             _categories = new ObservableCollection<CategoryDto>();
 
             AddCategoryCommand = new RelayCommand(_ => ExecuteAddCategory());
-            EditCategoryCommand = new RelayCommand(_ => ExecuteEditCategory(), _ => SelectedCategory != null);
-            DeleteCategoryCommand = new RelayCommand(async _ => await ExecuteDeleteCategory(), _ => SelectedCategory != null);
+            EditCategoryCommand = new RelayCommand(async (param) => await ExecuteEditCategory(param));
+            DeleteCategoryCommand = new RelayCommand(async _ => await ExecuteDeleteCategory());
             RefreshCommand = new RelayCommand(async _ => await LoadCategoriesAsync());
             CloseCommand = new RelayCommand(_ => ExecuteClose());
 
@@ -45,8 +45,6 @@ namespace _5Elem.Client.ViewModels
             set
             {
                 SetProperty(ref _selectedCategory, value);
-                //(EditCategoryCommand as RelayCommand)?.RaiseCanExecuteChanged();
-                //(DeleteCategoryCommand as RelayCommand)?.RaiseCanExecuteChanged();
             }
         }
 
@@ -109,7 +107,7 @@ namespace _5Elem.Client.ViewModels
             }
         }
 
-        private void ExecuteEditCategory()
+        private async Task ExecuteEditCategory(object parameter)
         {
             if (SelectedCategory == null) return;
 

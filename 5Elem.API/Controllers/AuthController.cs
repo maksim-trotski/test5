@@ -1,7 +1,6 @@
 ﻿using _5Elem.API.Services.Interfaces;
 using _5Elem.Shared.Models;
 
-//using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace _5Elem.API.Controllers

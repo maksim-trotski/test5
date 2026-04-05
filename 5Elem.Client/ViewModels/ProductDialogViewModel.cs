@@ -1,6 +1,4 @@
-﻿using _5Elem.Client.Dialogs;
-using _5Elem.Client.Models;
-using _5Elem.Client.Services;
+﻿using _5Elem.Client.Services;
 using _5Elem.Client.ViewModels.Base;
 using _5Elem.Shared.Models;
 using Microsoft.AspNetCore.Http;
@@ -17,30 +15,53 @@ namespace _5Elem.Client.ViewModels
         private ProductCreateDto _product;
         private string _selectedImagePath;
         private string _imageName;
+        private string _errorMessage;
+        private bool _isLoading;
+        private List<CategoryDto> _categories;
+        private CategoryDto _selectedCategory;
 
-        public ProductDialogViewModel(ProductDto existingProduct = null)
+        public ProductDialogViewModel(ApiService apiService, int? defaultCategoryId = null)
         {
-            _apiService = App.ApiService;
+            _apiService = apiService;
             _product = new ProductCreateDto();
+            _categories = new List<CategoryDto>();
 
-            if (existingProduct != null)
+            Title = "Добавление товара";
+
+            if (defaultCategoryId.HasValue)
             {
-                _product.Name = existingProduct.Name;
-                _product.Description = existingProduct.Description;
-                _product.Price = existingProduct.Price;
-                _product.Stock = existingProduct.Stock;
-                _product.CategoryId = existingProduct.CategoryId;
-                Title = "Редактирование товара";
-            }
-            else
-            {
-                Title = "Добавление товара";
+                _product.CategoryId = defaultCategoryId;
             }
 
             SelectImageCommand = new RelayCommand(_ => ExecuteSelectImage());
-            SaveCommand = new RelayCommand(_ => ExecuteSave(), _ => CanSave());
+            SaveCommand = new RelayCommand(async _ => await ExecuteSave(), _ => CanSave());
             CancelCommand = new RelayCommand(_ => ExecuteCancel());
             CloseCommand = new RelayCommand(_ => ExecuteCancel());
+
+            LoadCategories();
+        }
+
+        public ProductDialogViewModel(ApiService apiService, ProductDto existingProduct)
+        {
+            _apiService = apiService;
+            _product = new ProductCreateDto
+            {
+                Name = existingProduct.Name,
+                Description = existingProduct.Description,
+                Price = existingProduct.Price,
+                Stock = existingProduct.Stock,
+                CategoryId = existingProduct.CategoryId
+            };
+            _categories = new List<CategoryDto>();
+
+            Title = "Редактирование товара";
+
+            SelectImageCommand = new RelayCommand(_ => ExecuteSelectImage());
+            SaveCommand = new RelayCommand(async _ => await ExecuteSave(), _ => CanSave());
+            CancelCommand = new RelayCommand(_ => ExecuteCancel());
+            CloseCommand = new RelayCommand(_ => ExecuteCancel());
+
+            LoadCategories();
         }
 
         public ProductCreateDto Product
@@ -57,10 +78,54 @@ namespace _5Elem.Client.ViewModels
             set => SetProperty(ref _imageName, value);
         }
 
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set => SetProperty(ref _errorMessage, value);
+        }
+
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set => SetProperty(ref _isLoading, value);
+        }
+
+        public List<CategoryDto> Categories
+        {
+            get => _categories;
+            set => SetProperty(ref _categories, value);
+        }
+
+        public CategoryDto SelectedCategory
+        {
+            get => _selectedCategory;
+            set
+            {
+                SetProperty(ref _selectedCategory, value);
+                Product.CategoryId = value?.Id;
+            }
+        }
+
         public ICommand SelectImageCommand { get; }
         public ICommand SaveCommand { get; }
         public ICommand CancelCommand { get; }
         public ICommand CloseCommand { get; }
+
+        private async void LoadCategories()
+        {
+            try
+            {
+                Categories = await _apiService.GetCategoriesAsync();
+                if (Product.CategoryId.HasValue)
+                {
+                    SelectedCategory = Categories.FirstOrDefault(c => c.Id == Product.CategoryId.Value);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Ошибка загрузки категорий: {ex.Message}";
+            }
+        }
 
         private void ExecuteSelectImage()
         {
@@ -79,13 +144,21 @@ namespace _5Elem.Client.ViewModels
 
         private bool CanSave()
         {
-            return !string.IsNullOrWhiteSpace(Product.Name) && Product.Price > 0 && Product.Stock >= 0;
+            return !IsLoading &&
+                   !string.IsNullOrWhiteSpace(Product.Name) &&
+                   Product.Price > 0 &&
+                   Product.Stock >= 0;
         }
 
         private async Task ExecuteSave()
         {
+            if (IsLoading) return;
+
             try
             {
+                IsLoading = true;
+                ErrorMessage = null;
+
                 if (!string.IsNullOrEmpty(_selectedImagePath))
                 {
                     var fileInfo = new FileInfo(_selectedImagePath);
@@ -100,30 +173,55 @@ namespace _5Elem.Client.ViewModels
                     };
                 }
 
-                var result = await _apiService.CreateProductAsync(Product);
+                ProductDto result = null;
 
-                if (result != null)
+                if (Title.Contains("Редактирование"))
                 {
-                    System.Windows.Application.Current.Windows.OfType<ProductDialog>().FirstOrDefault()?.Close();
+                    // Обновление - нужно сохранить ID
                 }
                 else
                 {
-                    Console.WriteLine("Ошибка при создании товара");
+                    result = await _apiService.CreateProductAsync(Product);
+                }
 
+                if (result != null)
+                {
+                    var window = System.Windows.Application.Current.Windows
+                        .OfType<System.Windows.Window>()
+                        .FirstOrDefault(w => w.DataContext == this);
+
+                    if (window != null)
+                    {
+                        window.DialogResult = true;
+                        window.Close();
+                    }
+                }
+                else
+                {
+                    ErrorMessage = "Ошибка при сохранении товара";
                 }
             }
             catch (Exception ex)
             {
-               Console.WriteLine(ex.ToString());
+                ErrorMessage = $"Ошибка: {ex.Message}";
             }
-
-            
+            finally
+            {
+                IsLoading = false;
+            }
         }
 
         private void ExecuteCancel()
         {
-            Product = null;
-            System.Windows.Application.Current.Windows.OfType<ProductDialog>().FirstOrDefault()?.Close();
+            var window = System.Windows.Application.Current.Windows
+                .OfType<System.Windows.Window>()
+                .FirstOrDefault(w => w.DataContext == this);
+
+            if (window != null)
+            {
+                window.DialogResult = false;
+                window.Close();
+            }
         }
 
         private string GetContentType(string extension)

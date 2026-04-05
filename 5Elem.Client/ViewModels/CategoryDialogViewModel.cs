@@ -4,10 +4,8 @@ using _5Elem.Shared.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Win32;
-using System;
 using System.IO;
 using System.Windows.Input;
-using System.Xml.Linq;
 
 namespace _5Elem.Client.ViewModels
 {
@@ -18,7 +16,6 @@ namespace _5Elem.Client.ViewModels
         private string _selectedImagePath;
         private string _imageName;
         private string _errorMessage;
-        private bool _isLoading;
         private int? _editId;
 
         public CategoryDialogViewModel(ApiService apiService, CategoryDto existingCategory = null)
@@ -87,7 +84,7 @@ namespace _5Elem.Client.ViewModels
             if (dialog.ShowDialog() == true)
             {
                 _selectedImagePath = dialog.FileName;
-                ImageName = System.IO.Path.GetFileName(_selectedImagePath);
+                ImageName = Path.GetFileName(_selectedImagePath);
             }
         }
 
@@ -100,7 +97,6 @@ namespace _5Elem.Client.ViewModels
                 IsLoading = true;
                 ErrorMessage = null;
 
-                // Подготовка изображения
                 if (!string.IsNullOrEmpty(_selectedImagePath))
                 {
                     var fileInfo = new FileInfo(_selectedImagePath);

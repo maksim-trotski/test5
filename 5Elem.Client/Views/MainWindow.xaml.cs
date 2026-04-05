@@ -1,4 +1,9 @@
-﻿using System.Windows;
+﻿using _5Elem.Client.Dialogs;
+using _5Elem.Client.ViewModels;
+using _5Elem.Shared.Models;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace _5Elem.Client
 {
@@ -6,8 +11,8 @@ namespace _5Elem.Client
     {
         public MainWindow()
         {
-           InitializeComponent();
-            this.MouseLeftButtonDown += (s, e) => this.DragMove();
+            InitializeComponent();
+            MouseLeftButtonDown += (s, e) => DragMove();
         }
     }
 }

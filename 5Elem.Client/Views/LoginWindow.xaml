@@ -59,7 +59,6 @@
                     </Button>
                 </StackPanel>
 
-                <!-- Форма входа -->
                 <StackPanel Grid.Row="2" Visibility="{Binding IsLoginMode, Converter={StaticResource BoolToVisibility}}">
                     <TextBox Text="{Binding LoginModel.Username, UpdateSourceTrigger=PropertyChanged}" 
                              Style="{StaticResource ModernTextBox}"
@@ -78,7 +77,6 @@
                             Command="{Binding LoginCommand}"/>
                 </StackPanel>
 
-                <!-- Форма регистрации -->
                 <StackPanel Grid.Row="2" Visibility="{Binding IsLoginMode, Converter={StaticResource InverseBoolToVisibility}}">
                     <TextBox Text="{Binding LoginModel.Username, UpdateSourceTrigger=PropertyChanged}" 
                              Style="{StaticResource ModernTextBox}"
