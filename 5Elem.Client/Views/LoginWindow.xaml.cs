@@ -16,6 +16,16 @@ namespace _5Elem.Client.Views
         private void PasswordChanged(object sender, RoutedEventArgs e)
         {
             var passwordBox = sender as PasswordBox;
+
+            var placeholder = passwordBox.Template.FindName("Placeholder", passwordBox) as TextBlock;
+
+            if (placeholder != null)
+            {
+                placeholder.Visibility = string.IsNullOrEmpty(passwordBox.Password)
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+            }
+
             if (DataContext is LoginViewModel loginViewModel)
             {
                 loginViewModel.LoginModel.Password = passwordBox.Password;
@@ -25,6 +35,16 @@ namespace _5Elem.Client.Views
         private void ConfirmPasswordChanged(object sender, RoutedEventArgs e)
         {
             var passwordBox = sender as PasswordBox;
+
+            var placeholder = passwordBox.Template.FindName("Placeholder", passwordBox) as TextBlock;
+
+            if (placeholder != null)
+            {
+                placeholder.Visibility = string.IsNullOrEmpty(passwordBox.Password)
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+            }
+
             if (DataContext is LoginViewModel loginViewModel)
             {
                 loginViewModel.LoginModel.ConfirmPassword = passwordBox.Password;
