@@ -12,7 +12,7 @@ namespace _5Elem.Client
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            //ApiService = new ApiService("https://localhost:7000"); // Ваш API URL
+            //ApiService = new ApiService("https://localhost:7000");
             ApiService = new ApiService("http://localhost:5000");
         }
     }
