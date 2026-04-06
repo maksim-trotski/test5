@@ -92,6 +92,20 @@ namespace _5Elem.Client.ViewModels
                 return;
             }
 
+            if (!IsValidEmail(LoginModel.Email))
+            {
+                ErrorMessage = StringConstants.InvalidEmailFormat;
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(LoginModel.Username) ||
+                string.IsNullOrWhiteSpace(LoginModel.Email) ||
+                string.IsNullOrWhiteSpace(LoginModel.Password))
+            {
+                ErrorMessage = StringConstants.RegisterEmptyFields;
+                return;
+            }
+
             if (LoginModel.Password != LoginModel.ConfirmPassword)
             {
                 ErrorMessage = StringConstants.RegisterPasswordsDoNotMatch;
@@ -136,6 +150,22 @@ namespace _5Elem.Client.ViewModels
         private void ExecuteClose()
         {
             Application.Current.Shutdown();
+        }
+
+        private bool IsValidEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return false;
+
+            string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            return System.Text.RegularExpressions.Regex.IsMatch(email, pattern);
+        }
+
+        private string DomainMapper(System.Text.RegularExpressions.Match match)
+        {
+            var idn = new System.Globalization.IdnMapping();
+            string domainName = idn.GetAscii(match.Groups[2].Value);
+            return match.Groups[1].Value + domainName;
         }
     }
 }

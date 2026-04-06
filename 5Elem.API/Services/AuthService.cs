@@ -46,8 +46,8 @@ namespace _5Elem.API.Services
             using var connection = _database.CreateConnection();
 
             var existing = await connection.QueryFirstOrDefaultAsync<User>(
-                "SELECT Id FROM Users WHERE Email = @Email",
-                new { Email = email });
+                "SELECT Id FROM Users WHERE Username = @Username",
+                new { Username = username });
 
             if (existing != null)
                 return null;
