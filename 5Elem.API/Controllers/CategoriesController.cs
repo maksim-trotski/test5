@@ -20,60 +20,101 @@ namespace _5Elem.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var categories = await _categoryService.GetAllAsync();
-            return Ok(categories);
+            try
+            {
+                var categories = await _categoryService.GetAllAsync();
+                return Ok(categories);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex });
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var category = await _categoryService.GetByIdAsync(id);
-            if (category == null)
-                return NotFound(new { message = "Категория не найдена" });
-            return Ok(category);
+            try
+            {
+                var category = await _categoryService.GetByIdAsync(id);
+                if (category == null)
+                    return NotFound(new { message = "Категория не найдена" });
+                return Ok(category);
+            }
+            catch (Exception ex) {
+                return StatusCode(500, new { message = ex });
+            }
         }
 
         [HttpGet("{id}/products")]
         public async Task<IActionResult> GetProductsByCategory(int id)
         {
-            var products = await _categoryService.GetProductsByCategoryAsync(id);
-            return Ok(products);
+            try
+            {
+                var products = await _categoryService.GetProductsByCategoryAsync(id);
+                return Ok(products);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex });
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] CategoryCreateDto categoryDto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-            var category = await _categoryService.CreateAsync(categoryDto);
-            if (category == null)
-                return BadRequest(new { message = "Ошибка при создании категории" });
+                var category = await _categoryService.CreateAsync(categoryDto);
+                if (category == null)
+                    return BadRequest(new { message = "Ошибка при создании категории" });
 
-            return CreatedAtAction(nameof(GetById), new { id = category.Id }, category);
+                return CreatedAtAction(nameof(GetById), new { id = category.Id }, category);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex });
+            }
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromForm] CategoryUpdateDto categoryDto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-            var category = await _categoryService.UpdateAsync(id, categoryDto);
-            if (category == null)
-                return NotFound(new { message = "Категория не найдена" });
+                var category = await _categoryService.UpdateAsync(id, categoryDto);
+                if (category == null)
+                    return NotFound(new { message = "Категория не найдена" });
 
-            return Ok(category);
+                return Ok(category);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex });
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await _categoryService.DeleteAsync(id);
-            if (!result)
-                return NotFound(new { message = "Категория не найдена или содержит товары" });
+            try
+            {
+                var result = await _categoryService.DeleteAsync(id);
+                if (!result)
+                    return NotFound(new { message = "Категория не найдена или содержит товары" });
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex });
+            }
         }
     }
 }

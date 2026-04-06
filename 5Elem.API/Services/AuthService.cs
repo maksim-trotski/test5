@@ -22,30 +22,23 @@ namespace _5Elem.API.Services
 
         public async Task<AuthResponseModel> LoginAsync(string username, string password)
         {
-            try
-            {
-                using var connection = _database.CreateConnection();
+            using var connection = _database.CreateConnection();
 
-                var user = await connection.QueryFirstOrDefaultAsync<User>(
-                    "SELECT Id, Username, Email, PasswordHash FROM Users WHERE Username = @Username",
-                    new { Username = username });
+            var user = await connection.QueryFirstOrDefaultAsync<User>(
+                "SELECT Id, Username, Email, PasswordHash FROM Users WHERE Username = @Username",
+                new { Username = username });
 
-                if (user == null || !VerifyPassword(password, user.PasswordHash))
-                    return null;
-
-                var token = GenerateJwtToken(user);
-
-                return new AuthResponseModel
-                {
-                    Token = token,
-                    Username = user.Username,
-                    Email = user.Email
-                };
-            }
-            catch(Exception ex)
-            {
+            if (user == null || !VerifyPassword(password, user.PasswordHash))
                 return null;
-            }
+
+            var token = GenerateJwtToken(user);
+
+            return new AuthResponseModel
+            {
+                Token = token,
+                Username = user.Username,
+                Email = user.Email
+            };
         }
 
         public async Task<AuthResponseModel> RegisterAsync(string username, string email, string password)

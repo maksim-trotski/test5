@@ -1,4 +1,5 @@
 ﻿using _5Elem.Client.Dialogs;
+using _5Elem.Client.Resources;
 using _5Elem.Client.Services;
 using _5Elem.Client.ViewModels.Base;
 using _5Elem.Client.Views;
@@ -23,11 +24,11 @@ namespace _5Elem.Client.ViewModels
             _apiService = App.ApiService;
             _displayItems = new ObservableCollection<object>();
 
-            NavigateToRootCommand = new RelayCommand(_ => ExecuteNavigateToRoot());
+            NavigateToRootCommand = new RelayCommand(async _ => await ExecuteNavigateToRoot());
 
-            AddCategoryCommand = new RelayCommand(_ => ExecuteAddCategory());
+            AddCategoryCommand = new RelayCommand(async _ => await ExecuteAddCategory());
             CategoryClickCommand = new RelayCommand(async (param) => await ExecuteCategoryClick(param));
-            AddProductCommand = new RelayCommand(_ => ExecuteAddProduct());
+            AddProductCommand = new RelayCommand(async _ => await ExecuteAddProduct());
 
             RefreshCommand = new RelayCommand(async (param) => {
                 if (param != null && param is ProductDto product)
@@ -40,7 +41,7 @@ namespace _5Elem.Client.ViewModels
             CloseCommand = new RelayCommand(_ => ExecuteClose());
 
             InitializeTimer();
-            LoadCategoriesAsync();
+            _ = LoadCategoriesAsync();
         }
 
         public ObservableCollection<object> DisplayItems
@@ -59,7 +60,7 @@ namespace _5Elem.Client.ViewModels
             }
         }
 
-        public string CurrentCategoryName => CurrentCategory?.Name ?? "Каталог";
+        public string CurrentCategoryName => CurrentCategory?.Name ?? StringConstants.RootCategoryName;
 
         public bool IsLoading
         {
@@ -114,12 +115,12 @@ namespace _5Elem.Client.ViewModels
                         DisplayItems.Add(item);
                     }
                     CurrentCategory = null;
-                    StatusMessage = $"Категории: {categories.Count}";
+                    StatusMessage = string.Format(StringConstants.CategoriesStatus, categories.Count);
                 });
             }
             catch (Exception ex)
             {
-                StatusMessage = $"Ошибка: {ex.Message}";
+                StatusMessage = string.Format(StringConstants.ErrorPrefix, ex.Message);
             }
             finally
             {
@@ -142,12 +143,12 @@ namespace _5Elem.Client.ViewModels
                         var item = new ProductItemViewModel(product, RefreshCommand, _apiService);
                         DisplayItems.Add(item);
                     }
-                    StatusMessage = $"Товаров в категории: {products.Count}";
+                    StatusMessage = string.Format(StringConstants.ProductsStatus, products.Count);
                 });
             }
             catch (Exception ex)
             {
-                StatusMessage = $"Ошибка: {ex.Message}";
+                StatusMessage = string.Format(StringConstants.ErrorPrefix, ex.Message);
             }
             finally
             {
@@ -169,18 +170,18 @@ namespace _5Elem.Client.ViewModels
                 var success = await _apiService.DeleteCategoryAsync(categoryId);
                 if (success)
                 {
-                    StatusMessage = "Категория успешно удалена";
+                    StatusMessage = StringConstants.DeleteCategorySuccess;
                     await LoadCategoriesAsync();
                 }
                 else
                 {
-                    MessageBox.Show("Нельзя удалить категорию, в которой есть товары", "Ошибка",
+                    MessageBox.Show(StringConstants.DeleteCategoryErrorHasProducts, StringConstants.DeleteCategoryErrorTitle,
                         MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при удалении: {ex.Message}", "Ошибка",
+                MessageBox.Show(string.Format(StringConstants.DeleteCategoryErrorMessage, ex.Message), StringConstants.DeleteCategoryErrorTitle,
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
@@ -189,7 +190,7 @@ namespace _5Elem.Client.ViewModels
             }
         }
 
-        private void ExecuteAddCategory()
+        private async Task ExecuteAddCategory()
         {
             var dialog = new CategoryDialog();
             var dialogViewModel = new CategoryDialogViewModel(_apiService);
@@ -197,13 +198,13 @@ namespace _5Elem.Client.ViewModels
 
             if (dialog.ShowDialog() == true)
             {
-                LoadCategoriesAsync();
+                await LoadCategoriesAsync();
             }
         }
 
-        private void ExecuteNavigateToRoot()
+        private async Task ExecuteNavigateToRoot()
         {
-            LoadCategoriesAsync();
+            await LoadCategoriesAsync();
         }
 
         private async Task ExecuteCategoryClick(object parameter)
@@ -219,7 +220,7 @@ namespace _5Elem.Client.ViewModels
             }
         }
 
-        private void ExecuteAddProduct()
+        private async Task ExecuteAddProduct()
         {
             var dialog = new ProductDialog();
             var dialogViewModel = new ProductDialogViewModel(_apiService, CurrentCategory?.Id);
@@ -228,9 +229,9 @@ namespace _5Elem.Client.ViewModels
             if (dialog.ShowDialog() == true && dialogViewModel.Product != null)
             {
                 if (CurrentCategory == null)
-                    LoadCategoriesAsync();
+                    await LoadCategoriesAsync();
                 else
-                    LoadProductsByCategoryAsync(CurrentCategory.Id);
+                    await LoadProductsByCategoryAsync(CurrentCategory.Id);
             }
         }
 
@@ -254,5 +255,4 @@ namespace _5Elem.Client.ViewModels
             Application.Current.Shutdown();
         }
     }
-
 }

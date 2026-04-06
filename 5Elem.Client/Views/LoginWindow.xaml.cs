@@ -1,5 +1,4 @@
-﻿using _5Elem.Client.Models;
-using _5Elem.Client.ViewModels;
+﻿using _5Elem.Client.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 

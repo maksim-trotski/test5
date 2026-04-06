@@ -1,4 +1,5 @@
 ﻿using _5Elem.Client.Dialogs;
+using _5Elem.Client.Resources;
 using _5Elem.Client.Services;
 using _5Elem.Client.ViewModels.Base;
 using _5Elem.Shared.Models;
@@ -56,36 +57,40 @@ namespace _5Elem.Client.ViewModels
 
         private async Task ExecuteDeleteCategory()
         {
-            var result = MessageBox.Show($"Удалить категорию '{_category.Name}'?\n\n" +
-                "Внимание: Категория будет удалена только если в ней нет товаров.",
-                "Подтверждение",
-                MessageBoxButton.YesNo, MessageBoxImage.Question);
+            var confirmationMessage = string.Format(StringConstants.DeleteCategoryConfirmation, _category.Name);
+
+            var result = MessageBox.Show(
+                confirmationMessage,
+                StringConstants.DeleteCategoryTitle,
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes)
             {
-                //IsLoading = true;
                 try
                 {
                     var success = await _apiService.DeleteCategoryAsync(_category.Id);
                     if (success)
                     {
                         _refreshCategoriesCommand.Execute(null);
-                        //StatusMessage = "Категория успешно удалена";
+                        // StatusMessage = StringConstants.DeleteCategorySuccess;
                     }
                     else
                     {
-                        MessageBox.Show("Нельзя удалить категорию, в которой есть товары", "Ошибка",
-                            MessageBoxButton.OK, MessageBoxImage.Warning);
+                        MessageBox.Show(
+                            StringConstants.DeleteCategoryErrorHasProducts,
+                            StringConstants.DeleteCategoryErrorTitle,
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Warning);
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Ошибка при удалении: {ex.Message}", "Ошибка",
-                        MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                finally
-                {
-                    //IsLoading = false;
+                    MessageBox.Show(
+                        string.Format(StringConstants.DeleteCategoryErrorMessage, ex.Message),
+                        StringConstants.DeleteCategoryErrorTitle,
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
                 }
             }
         }

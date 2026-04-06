@@ -1,4 +1,5 @@
 ﻿using _5Elem.Client.Models;
+using _5Elem.Client.Resources;
 using _5Elem.Client.Services;
 using _5Elem.Client.ViewModels.Base;
 using System.Windows;
@@ -53,7 +54,7 @@ namespace _5Elem.Client.ViewModels
             if (string.IsNullOrWhiteSpace(LoginModel.Username) ||
                 string.IsNullOrWhiteSpace(LoginModel.Password))
             {
-                ErrorMessage = "Заполните все поля";
+                ErrorMessage = StringConstants.LoginEmptyFields;
                 return;
             }
 
@@ -72,12 +73,12 @@ namespace _5Elem.Client.ViewModels
                 }
                 else
                 {
-                    ErrorMessage = "Неверное имя пользователя или пароль";
+                    ErrorMessage = StringConstants.LoginInvalidCredentials;
                 }
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Ошибка: {ex.Message}";
+                ErrorMessage = string.Format(StringConstants.LoginGenericError, ex.Message);
             }
         }
 
@@ -87,13 +88,13 @@ namespace _5Elem.Client.ViewModels
                 string.IsNullOrWhiteSpace(LoginModel.Email) ||
                 string.IsNullOrWhiteSpace(LoginModel.Password))
             {
-                ErrorMessage = "Заполните все поля";
+                ErrorMessage = StringConstants.RegisterEmptyFields;
                 return;
             }
 
             if (LoginModel.Password != LoginModel.ConfirmPassword)
             {
-                ErrorMessage = "Пароли не совпадают";
+                ErrorMessage = StringConstants.RegisterPasswordsDoNotMatch;
                 return;
             }
 
@@ -115,12 +116,12 @@ namespace _5Elem.Client.ViewModels
                 }
                 else
                 {
-                    ErrorMessage = "Пользователь с таким именем уже существует";
+                    ErrorMessage = StringConstants.RegisterUserAlreadyExists;
                 }
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Ошибка: {ex.Message}";
+                ErrorMessage = string.Format(StringConstants.LoginGenericError, ex.Message);
             }
         }
 

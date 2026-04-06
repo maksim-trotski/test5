@@ -1,8 +1,8 @@
 ﻿using _5Elem.Client.Dialogs;
+using _5Elem.Client.Resources;
 using _5Elem.Client.Services;
 using _5Elem.Client.ViewModels.Base;
 using _5Elem.Shared.Models;
-using System.Data.Common;
 using System.Windows;
 using System.Windows.Input;
 
@@ -12,7 +12,7 @@ namespace _5Elem.Client.ViewModels
     {
         private readonly ApiService _apiService;
         private readonly ProductDto _product;
-        ICommand _refreshCategoriesCommand;
+        private readonly ICommand _refreshCategoriesCommand;
         private string _thumbnailUrl;
 
         public ProductItemViewModel(ProductDto product, ICommand refreshCategoriesCommand, ApiService apiService)
@@ -22,8 +22,8 @@ namespace _5Elem.Client.ViewModels
             _refreshCategoriesCommand = refreshCategoriesCommand;
             _thumbnailUrl = product.ThumbnailUrl;
 
-            EditProductCommand = new RelayCommand(_ => ExecuteEditProduct());
-            DeleteProductCommand = new RelayCommand(_ => ExecuteDeleteProduct());
+            EditProductCommand = new RelayCommand(async _ => await ExecuteEditProduct());
+            DeleteProductCommand = new RelayCommand(async _ => await ExecuteDeleteProduct());
         }
 
         public int Id => _product.Id;
@@ -42,7 +42,7 @@ namespace _5Elem.Client.ViewModels
         public ICommand EditProductCommand { get; }
         public ICommand DeleteProductCommand { get; }
 
-        private void ExecuteEditProduct()
+        private async Task ExecuteEditProduct()
         {
             if (_product == null) return;
 
@@ -52,14 +52,17 @@ namespace _5Elem.Client.ViewModels
 
             if (dialog.ShowDialog() == true && dialogViewModel.Product != null)
             {
-                UpdateProductAsync(_product.Id, dialogViewModel.Product);
+                await UpdateProductAsync(_product.Id, dialogViewModel.Product);
             }
         }
 
         private async Task ExecuteDeleteProduct()
         {
-            var result = MessageBox.Show($"Удалить товар '{_product.Name}'?", "Подтверждение",
-                MessageBoxButton.YesNo, MessageBoxImage.Question);
+            var result = MessageBox.Show(
+                string.Format(StringConstants.DeleteProductConfirmation, _product.Name),
+                StringConstants.ConfirmationTitle,
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes)
             {
@@ -69,13 +72,11 @@ namespace _5Elem.Client.ViewModels
 
         public async Task DeleteProductAsync()
         {
-            //IsLoading = true;
             try
             {
                 var success = await _apiService.DeleteProductAsync(_product.Id);
                 if (success)
                 {
-                    //StatusMessage = "Товар успешно удален";
                     if (_product.CategoryId == null)
                         _refreshCategoriesCommand.Execute(null);
                     else
@@ -83,24 +84,25 @@ namespace _5Elem.Client.ViewModels
                 }
                 else
                 {
-                    MessageBox.Show("Ошибка при удалении товара", "Ошибка",
-                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(
+                        StringConstants.DeleteProductError,
+                        StringConstants.DeleteProductErrorTitle,
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            finally
-            {
-                //IsLoading = false;
+                MessageBox.Show(
+                    string.Format(StringConstants.DeleteProductError, ex.Message),
+                    StringConstants.DeleteProductErrorTitle,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
 
-        private async void UpdateProductAsync(int id, ProductCreateDto product)
+        private async Task UpdateProductAsync(int id, ProductCreateDto product)
         {
-            //IsLoading = true;
             try
             {
                 var updateDto = new ProductUpdateDto
@@ -117,22 +119,23 @@ namespace _5Elem.Client.ViewModels
                 if (updatedProduct != null)
                 {
                     _refreshCategoriesCommand.Execute(_product.CategoryId);
-                    //StatusMessage = "Товар успешно обновлен";
                 }
                 else
                 {
-                    MessageBox.Show("Ошибка при обновлении товара", "Ошибка",
-                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(
+                        StringConstants.ProductSaveError,
+                        StringConstants.DeleteProductErrorTitle,
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            finally
-            {
-                //IsLoading = false;
+                MessageBox.Show(
+                    string.Format(StringConstants.ErrorPrefix, ex.Message),
+                    StringConstants.DeleteProductErrorTitle,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
     }

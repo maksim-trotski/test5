@@ -25,24 +25,29 @@ namespace _5Elem.API.Controllers
                 if (result == null)
                     return Unauthorized(new { message = "Invalid credentials" });
 
-                Console.WriteLine("qwe");
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("qwerty " + ex);
-                return ControllerBase.Empty;
+                return StatusCode(500, new { message = ex });
             }
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            var result = await _authService.RegisterAsync(request.Username, request.Email, request.Password);
-            if (result == null)
-                return BadRequest(new { message = "Username already exists" });
+            try
+            {
+                var result = await _authService.RegisterAsync(request.Username, request.Email, request.Password);
+                if (result == null)
+                    return BadRequest(new { message = "Username already exists" });
 
             return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex });
+            }
         }
     }
 }

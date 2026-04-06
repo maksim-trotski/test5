@@ -1,0 +1,55 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <system:String x:Key="AppTitle">Каталог товаров</system:String>
+    <system:String x:Key="LoginTab">Вход</system:String>
+    <system:String x:Key="RegisterTab">Регистрация</system:String>
+    <system:String x:Key="UsernamePlaceholder">Имя пользователя</system:String>
+    <system:String x:Key="PasswordPlaceholder">Пароль</system:String>
+    <system:String x:Key="EmailPlaceholder">Email</system:String>
+    <system:String x:Key="ConfirmPasswordPlaceholder">Подтверждение пароля</system:String>
+    <system:String x:Key="LoginButtonText">Войти</system:String>
+    <system:String x:Key="RegisterButtonText">Зарегистрироваться</system:String>
+    <system:String x:Key="CloseButtonText">✕</system:String>
+
+    <system:String x:Key="ErrorInvalidCredentials">Неверное имя пользователя или пароль</system:String>
+    <system:String x:Key="ErrorUserExists">Пользователь с таким именем уже существует</system:String>
+    <system:String x:Key="ErrorFillFields">Заполните все поля</system:String>
+    <system:String x:Key="ErrorPasswordsMismatch">Пароли не совпадают</system:String>
+
+    <system:String x:Key="CatalogTitle">Каталог товаров</system:String>
+    <system:String x:Key="BreadcrumbRoot">🏠 Каталог</system:String>
+    <system:String x:Key="BreadcrumbSeparator">›</system:String>
+
+    <system:String x:Key="AddProduct">+ Добавить товар</system:String>
+    <system:String x:Key="AddCategory">+ Добавить категорию</system:String>
+    <system:String x:Key="Logout">Выйти</system:String>
+
+    <system:String x:Key="LoadingText">Загрузка...</system:String>
+
+    <system:String x:Key="EditIcon">✎</system:String>
+    <system:String x:Key="DeleteIcon">🗑</system:String>
+
+    <system:String x:Key="ProductsCountFormat">📦 {0} товаров</system:String>
+    <system:String x:Key="StockFormat">В наличии: {0} шт.</system:String>
+
+    <system:String x:Key="CategoryDialogTitle">Категория</system:String>
+
+    <system:String x:Key="CategoryNamePlaceholder">Название категории</system:String>
+    <system:String x:Key="CategoryDescriptionPlaceholder">Описание</system:String>
+
+    <system:String x:Key="SelectImageButton">Выбрать изображение</system:String>
+
+    <system:String x:Key="CancelButton">Отмена</system:String>
+    <system:String x:Key="SaveButton">Сохранить</system:String>
+
+    <system:String x:Key="ProductDialogTitle">Товар</system:String>
+
+    <system:String x:Key="ProductNamePlaceholder">Название</system:String>
+    <system:String x:Key="ProductCategoryPlaceholder">Категория</system:String>
+    <system:String x:Key="ProductDescriptionPlaceholder">Описание</system:String>
+    <system:String x:Key="ProductPricePlaceholder">Цена</system:String>
+    <system:String x:Key="ProductStockPlaceholder">Количество</system:String>
+    
+</ResourceDictionary>

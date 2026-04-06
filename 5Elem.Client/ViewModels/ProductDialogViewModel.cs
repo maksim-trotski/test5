@@ -1,4 +1,5 @@
-﻿using _5Elem.Client.Services;
+﻿using _5Elem.Client.Resources;
+using _5Elem.Client.Services;
 using _5Elem.Client.ViewModels.Base;
 using _5Elem.Shared.Models;
 using Microsoft.AspNetCore.Http;
@@ -12,6 +13,7 @@ namespace _5Elem.Client.ViewModels
     public class ProductDialogViewModel : ViewModelBase
     {
         private readonly ApiService _apiService;
+        private readonly int? _editId;
         private ProductCreateDto _product;
         private string _selectedImagePath;
         private string _imageName;
@@ -26,7 +28,7 @@ namespace _5Elem.Client.ViewModels
             _product = new ProductCreateDto();
             _categories = new List<CategoryDto>();
 
-            Title = "Добавление товара";
+            Title = StringConstants.AddProductTitle;
 
             if (defaultCategoryId.HasValue)
             {
@@ -38,12 +40,13 @@ namespace _5Elem.Client.ViewModels
             CancelCommand = new RelayCommand(_ => ExecuteCancel());
             CloseCommand = new RelayCommand(_ => ExecuteCancel());
 
-            LoadCategories();
+            _ = LoadCategories();
         }
 
         public ProductDialogViewModel(ApiService apiService, ProductDto existingProduct)
         {
             _apiService = apiService;
+            _editId = existingProduct.Id;
             _product = new ProductCreateDto
             {
                 Name = existingProduct.Name,
@@ -54,14 +57,14 @@ namespace _5Elem.Client.ViewModels
             };
             _categories = new List<CategoryDto>();
 
-            Title = "Редактирование товара";
+            Title = StringConstants.EditProductTitle;
 
             SelectImageCommand = new RelayCommand(_ => ExecuteSelectImage());
             SaveCommand = new RelayCommand(async _ => await ExecuteSave(), _ => CanSave());
             CancelCommand = new RelayCommand(_ => ExecuteCancel());
             CloseCommand = new RelayCommand(_ => ExecuteCancel());
 
-            LoadCategories();
+            _ = LoadCategories();
         }
 
         public ProductCreateDto Product
@@ -111,7 +114,7 @@ namespace _5Elem.Client.ViewModels
         public ICommand CancelCommand { get; }
         public ICommand CloseCommand { get; }
 
-        private async void LoadCategories()
+        private async Task LoadCategories()
         {
             try
             {
@@ -123,7 +126,7 @@ namespace _5Elem.Client.ViewModels
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Ошибка загрузки категорий: {ex.Message}";
+                ErrorMessage = string.Format(StringConstants.ProductCategoriesLoadError, ex.Message);
             }
         }
 
@@ -131,28 +134,47 @@ namespace _5Elem.Client.ViewModels
         {
             var dialog = new OpenFileDialog
             {
-                Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp",
-                Title = "Выберите изображение"
+                Filter = StringConstants.ImageFileFilter,
+                Title = StringConstants.SelectProductImageTitle
             };
 
             if (dialog.ShowDialog() == true)
             {
                 _selectedImagePath = dialog.FileName;
-                ImageName = System.IO.Path.GetFileName(_selectedImagePath);
+                ImageName = Path.GetFileName(_selectedImagePath);
             }
         }
 
         private bool CanSave()
         {
-            return !IsLoading &&
-                   !string.IsNullOrWhiteSpace(Product.Name) &&
-                   Product.Price > 0 &&
-                   Product.Stock >= 0;
+            if (IsLoading) return false;
+            if (string.IsNullOrWhiteSpace(Product.Name)) return false;
+            if (Product.Price <= 0) return false;
+            if (Product.Stock < 0) return false;
+            return true;
+        }
+
+        private string GetValidationErrorMessage()
+        {
+            if (string.IsNullOrWhiteSpace(Product.Name))
+                return StringConstants.ProductNameRequired;
+            if (Product.Price <= 0)
+                return StringConstants.ProductPricePositive;
+            if (Product.Stock < 0)
+                return StringConstants.ProductStockNonNegative;
+            return null;
         }
 
         private async Task ExecuteSave()
         {
             if (IsLoading) return;
+
+            var validationError = GetValidationErrorMessage();
+            if (validationError != null)
+            {
+                ErrorMessage = validationError;
+                return;
+            }
 
             try
             {
@@ -175,9 +197,18 @@ namespace _5Elem.Client.ViewModels
 
                 ProductDto result = null;
 
-                if (Title.Contains("Редактирование"))
+                if (_editId.HasValue)
                 {
-                    // Обновление - нужно сохранить ID
+                    var updateDto = new ProductUpdateDto
+                    {
+                        Name = Product.Name,
+                        Description = Product.Description,
+                        Price = Product.Price,
+                        Stock = Product.Stock,
+                        CategoryId = Product.CategoryId,
+                        ImageFile = Product.ImageFile
+                    };
+                    result = await _apiService.UpdateProductAsync(_editId.Value, updateDto);
                 }
                 else
                 {
@@ -198,12 +229,12 @@ namespace _5Elem.Client.ViewModels
                 }
                 else
                 {
-                    ErrorMessage = "Ошибка при сохранении товара";
+                    ErrorMessage = StringConstants.ProductSaveError;
                 }
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Ошибка: {ex.Message}";
+                ErrorMessage = string.Format(StringConstants.ErrorPrefix, ex.Message);
             }
             finally
             {

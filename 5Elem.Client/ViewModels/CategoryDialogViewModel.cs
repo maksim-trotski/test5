@@ -1,4 +1,5 @@
-﻿using _5Elem.Client.Services;
+﻿using _5Elem.Client.Resources;
+using _5Elem.Client.Services;
 using _5Elem.Client.ViewModels.Base;
 using _5Elem.Shared.Models;
 using Microsoft.AspNetCore.Http;
@@ -28,11 +29,11 @@ namespace _5Elem.Client.ViewModels
                 _editId = existingCategory.Id;
                 _category.Name = existingCategory.Name;
                 _category.Description = existingCategory.Description;
-                Title = "Редактирование категории";
+                Title = StringConstants.EditCategoryTitle;
             }
             else
             {
-                Title = "Добавление категории";
+                Title = StringConstants.AddCategoryTitle;
             }
 
             SelectImageCommand = new RelayCommand(_ => ExecuteSelectImage());
@@ -77,8 +78,8 @@ namespace _5Elem.Client.ViewModels
         {
             var dialog = new OpenFileDialog
             {
-                Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp",
-                Title = "Выберите изображение для категории"
+                Filter = StringConstants.ImageFileFilter,
+                Title = StringConstants.SelectImageTitle
             };
 
             if (dialog.ShowDialog() == true)
@@ -142,12 +143,12 @@ namespace _5Elem.Client.ViewModels
                 }
                 else
                 {
-                    ErrorMessage = "Ошибка при сохранении категории";
+                    ErrorMessage = StringConstants.SaveError;
                 }
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Ошибка: {ex.Message}";
+                ErrorMessage = $"{StringConstants.ErrorPrefix}{ex.Message}";
             }
             finally
             {

@@ -1,0 +1,29 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <sys:Double x:Key="TitleFontSize">28</sys:Double>
+    <sys:Double x:Key="ButtonFontSize">14</sys:Double>
+    <sys:Double x:Key="BodyFontSize">14</sys:Double>
+    <sys:Double x:Key="SmallFontSize">12</sys:Double>
+    <sys:Double x:Key="LargeFontSize">18</sys:Double>
+
+    <sys:Double x:Key="CardWidth">200</sys:Double>
+    <GridLength x:Key="ImageHeight">150</GridLength>
+    <sys:Double x:Key="IconButtonWidth">30</sys:Double>
+
+    <sys:Double x:Key="FontSmall">11</sys:Double>
+    <sys:Double x:Key="FontNormal">14</sys:Double>
+    <sys:Double x:Key="FontLarge">16</sys:Double>
+    <sys:Double x:Key="FontBreadcrumb">18</sys:Double>
+
+    <Thickness x:Key="BorderPadding">30</Thickness>
+    <CornerRadius x:Key="CornerRadius">20</CornerRadius>
+    <CornerRadius x:Key="SecondaryCornerRadius">10</CornerRadius>
+
+    <sys:Double x:Key="TextBoxMarginBottom">15</sys:Double>
+    <sys:Double x:Key="ButtonMarginTop">20</sys:Double>
+
+    <sys:Double x:Key="DescriptionHeight">100</sys:Double>
+
+</ResourceDictionary>
