@@ -30,33 +30,3 @@ json
     "BaseUrl": "ВАШ_URL"
   }
 }
-
-Пример файлов: 
-5Elem.API
-{
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft.AspNetCore": "Warning"
-    }
-  },
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost\\MSSQLSERVER01;Database=_5ElemCatalog;Trusted_Connection=True;TrustServerCertificate=True;"
-  },
-  "ImageKit": {
-    "PublicKey": "public_CtguYF4YajNArBNExaV0K4xpSss=",
-    "PrivateKey": "private_lX4ZdBKbp7axdzN/8Zowr349Dsg=",
-    "UrlEndpoint": "https://ik.imagekit.io/3llqpvpki"
-  },
-  "JWT": {
-    "Secret": "e7F3mK9pL2xR8vN4bH6cJ1wM5qA0sD8gF3hJ6kL9pO2iU7yT5rE4wQ1aZ8xS3dC6vB9nM2"
-  },
-  "AllowedHosts": "*"
-}
-
-5Elem.Client:
-{
-  "ApiSettings": {
-    "BaseUrl": "http://localhost:5000"
-  }
-}
