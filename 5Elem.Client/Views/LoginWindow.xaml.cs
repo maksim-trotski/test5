@@ -1,4 +1,5 @@
 ﻿using _5Elem.Client.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -6,11 +7,18 @@ namespace _5Elem.Client.Views
 {
     public partial class LoginWindow : Window
     {
-        public LoginWindow()
+        public LoginWindow(LoginViewModel viewModel)
         {
-            InitializeComponent();
-            MouseLeftButtonDown += (s, e) => this.DragMove();
-            DataContext = new LoginViewModel();
+            try
+            {
+                InitializeComponent();
+                DataContext = viewModel;
+                MouseLeftButtonDown += (s, e) => this.DragMove();
+            }
+            catch(Exception ex)
+            {
+                var a = 1;
+            }
         }
 
         private void PasswordChanged(object sender, RoutedEventArgs e)

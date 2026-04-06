@@ -2,6 +2,7 @@
 using _5Elem.Client.Resources;
 using _5Elem.Client.Services;
 using _5Elem.Client.ViewModels.Base;
+using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using System.Windows.Input;
 
@@ -10,13 +11,15 @@ namespace _5Elem.Client.ViewModels
     public class LoginViewModel : ViewModelBase
     {
         private readonly ApiService _apiService;
+        private readonly IServiceProvider _serviceProvider;
         private LoginModel _loginModel;
         private bool _isLoginMode;
         private string _errorMessage;
 
-        public LoginViewModel()
+        public LoginViewModel(/*ApiService apiService, IServiceProvider serviceProvider*/)
         {
-            _apiService = App.ApiService;
+            _apiService = App.ApiService;//apiService;
+            //_serviceProvider = serviceProvider;
             _loginModel = new LoginModel();
             _isLoginMode = true;
 
@@ -64,12 +67,12 @@ namespace _5Elem.Client.ViewModels
 
                 if (success)
                 {
-                    var mainWindow = new MainWindow();
-                    var mainViewModel = new MainViewModel();
-                    mainWindow.DataContext = mainViewModel;
+                    //var mainWindow = new MainWindow();
+                    //var mainViewModel = new MainViewModel();
+                    var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
+                    //var mainViewModel = _serviceProvider.GetRequiredService<MainViewModel>();
+                    //mainWindow.DataContext = mainViewModel;
                     mainWindow.Show();
-
-                    Application.Current.Windows[0]?.Close();
                 }
                 else
                 {
@@ -107,12 +110,11 @@ namespace _5Elem.Client.ViewModels
 
                 if (success)
                 {
-                    var mainWindow = new MainWindow();
-                    var mainViewModel = new MainViewModel();
-                    mainWindow.DataContext = mainViewModel;
+                    //var mainWindow = new MainWindow();
+                    //var mainViewModel = new MainViewModel();
+                    //mainWindow.DataContext = mainViewModel;
+                    var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
                     mainWindow.Show();
-
-                    Application.Current.Windows[0]?.Close();
                 }
                 else
                 {
