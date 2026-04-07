@@ -51,9 +51,14 @@
                             FontSize="{StaticResource ButtonFontSize}">
                         <Button.Style>
                             <Style TargetType="Button" BasedOn="{StaticResource TabButton}">
-                                <Setter Property="Foreground" Value="{Binding IsLoginMode, 
-                                    Converter={StaticResource BooleanToBrushConverter}, 
-                                    ConverterParameter={StaticResource PrimaryBrush}}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsLoginMode}" Value="True">
+                                        <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsLoginMode}" Value="False">
+                                        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
                             </Style>
                         </Button.Style>
                     </Button>
@@ -70,9 +75,14 @@
                             FontSize="{StaticResource ButtonFontSize}">
                         <Button.Style>
                             <Style TargetType="Button" BasedOn="{StaticResource TabButton}">
-                                <Setter Property="Foreground" Value="{Binding IsLoginMode, 
-                                    Converter={StaticResource BooleanToBrushConverter}, 
-                                    ConverterParameter={StaticResource TextSecondaryBrush}}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsLoginMode}" Value="True">
+                                        <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsLoginMode}" Value="False">
+                                        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
                             </Style>
                         </Button.Style>
                     </Button>

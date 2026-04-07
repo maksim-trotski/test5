@@ -4,6 +4,7 @@ using _5Elem.Client.Services;
 using _5Elem.Client.ViewModels.Base;
 using _5Elem.Client.Views;
 using _5Elem.Shared.Models;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
@@ -13,15 +14,17 @@ namespace _5Elem.Client.ViewModels
     public class MainViewModel : ViewModelBase
     {
         private readonly ApiService _apiService;
+        private readonly IServiceProvider _serviceProvider;
         private ObservableCollection<object> _displayItems;
         private CategoryDto _currentCategory;
         private bool _isLoading;
         private string _statusMessage;
         private System.Timers.Timer _refreshTimer;
 
-        public MainViewModel()
+        public MainViewModel(ApiService apiService, IServiceProvider serviceProvider)
         {
-            _apiService = App.ApiService;
+            _apiService = apiService;
+            _serviceProvider = serviceProvider;
             _displayItems = new ObservableCollection<object>();
 
             NavigateToRootCommand = new RelayCommand(async _ => await ExecuteNavigateToRoot());
@@ -240,9 +243,7 @@ namespace _5Elem.Client.ViewModels
             _refreshTimer.Stop();
             _refreshTimer.Dispose();
 
-            var loginWindow = new LoginWindow();
-            var loginViewModel = new LoginViewModel();
-            loginWindow.DataContext = loginViewModel;
+            var loginWindow = _serviceProvider.GetRequiredService<LoginWindow>();
             loginWindow.Show();
 
             Application.Current.Windows.OfType<Window>().FirstOrDefault(w => w is MainWindow)?.Close();

@@ -6,11 +6,11 @@ namespace _5Elem.Client.Views
 {
     public partial class LoginWindow : Window
     {
-        public LoginWindow()
+        public LoginWindow(LoginViewModel viewModel)
         {
             InitializeComponent();
+            DataContext = viewModel;
             MouseLeftButtonDown += (s, e) => this.DragMove();
-            DataContext = new LoginViewModel();
         }
 
         private void PasswordChanged(object sender, RoutedEventArgs e)

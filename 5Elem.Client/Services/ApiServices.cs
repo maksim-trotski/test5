@@ -1,7 +1,5 @@
 ﻿using _5Elem.Shared.Models;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -91,7 +89,8 @@ namespace _5Elem.Client.Services
             using var formData = new MultipartFormDataContent();
 
             formData.Add(new StringContent(category.Name), "Name");
-            formData.Add(new StringContent(category.Description ?? ""), "Description");
+            if (!string.IsNullOrEmpty(category.Description))
+                formData.Add(new StringContent(category.Description ?? ""), "Description");
 
             if (category.ImageFile != null)
             {
@@ -113,7 +112,8 @@ namespace _5Elem.Client.Services
             using var formData = new MultipartFormDataContent();
 
             formData.Add(new StringContent(category.Name), "Name");
-            formData.Add(new StringContent(category.Description ?? ""), "Description");
+            if (!string.IsNullOrEmpty(category.Description))
+                formData.Add(new StringContent(category.Description ?? ""), "Description");
 
             if (category.ImageFile != null)
             {
@@ -161,7 +161,8 @@ namespace _5Elem.Client.Services
             using var formData = new MultipartFormDataContent();
 
             formData.Add(new StringContent(product.Name), "Name");
-            formData.Add(new StringContent(product.Description), "Description");
+            if (!string.IsNullOrEmpty(product.Description))
+                formData.Add(new StringContent(product.Description), "Description");
             formData.Add(new StringContent(product.Price.ToString()), "Price");
             formData.Add(new StringContent(product.Stock.ToString()), "Stock");
             if (product.CategoryId.HasValue)
@@ -187,7 +188,8 @@ namespace _5Elem.Client.Services
             using var formData = new MultipartFormDataContent();
 
             formData.Add(new StringContent(product.Name), "Name");
-            formData.Add(new StringContent(product.Description), "Description");
+            if (!string.IsNullOrEmpty(product.Description))
+                formData.Add(new StringContent(product.Description), "Description");
             formData.Add(new StringContent(product.Price.ToString()), "Price");
             formData.Add(new StringContent(product.Stock.ToString()), "Stock");
             if (product.CategoryId.HasValue)
