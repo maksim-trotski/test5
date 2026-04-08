@@ -1,4 +1,5 @@
 ﻿using _5Elem.Client.Dialogs;
+using _5Elem.Client.Helpers;
 using _5Elem.Client.Resources;
 using _5Elem.Client.Services;
 using _5Elem.Client.ViewModels.Base;
@@ -178,14 +179,16 @@ namespace _5Elem.Client.ViewModels
                 }
                 else
                 {
-                    MessageBox.Show(StringConstants.DeleteCategoryErrorHasProducts, StringConstants.DeleteCategoryErrorTitle,
-                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    CustomMessageBoxHelper.ShowWarning(
+                        StringConstants.DeleteCategoryErrorHasProducts,
+                        StringConstants.DeleteCategoryErrorTitle);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(StringConstants.DeleteCategoryErrorMessage, ex.Message), StringConstants.DeleteCategoryErrorTitle,
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                CustomMessageBoxHelper.ShowError(
+                    string.Format(StringConstants.DeleteCategoryErrorMessage, ex.Message),
+                    StringConstants.DeleteCategoryErrorTitle);
             }
             finally
             {

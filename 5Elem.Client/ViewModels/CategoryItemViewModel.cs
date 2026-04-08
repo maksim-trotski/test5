@@ -1,4 +1,5 @@
 ﻿using _5Elem.Client.Dialogs;
+using _5Elem.Client.Helpers;
 using _5Elem.Client.Resources;
 using _5Elem.Client.Services;
 using _5Elem.Client.ViewModels.Base;
@@ -59,13 +60,11 @@ namespace _5Elem.Client.ViewModels
         {
             var confirmationMessage = string.Format(StringConstants.DeleteCategoryConfirmation, _category.Name);
 
-            var result = MessageBox.Show(
-                confirmationMessage,
-                StringConstants.DeleteCategoryTitle,
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
+            var result = CustomMessageBoxHelper.ShowConfirm(
+                        confirmationMessage,
+                        StringConstants.DeleteCategoryTitle);
 
-            if (result == MessageBoxResult.Yes)
+            if (result)
             {
                 try
                 {
@@ -77,20 +76,16 @@ namespace _5Elem.Client.ViewModels
                     }
                     else
                     {
-                        MessageBox.Show(
+                        CustomMessageBoxHelper.Show(
                             StringConstants.DeleteCategoryErrorHasProducts,
-                            StringConstants.DeleteCategoryErrorTitle,
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Warning);
+                            StringConstants.DeleteCategoryErrorTitle);
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(
+                    CustomMessageBoxHelper.Show(
                         string.Format(StringConstants.DeleteCategoryErrorMessage, ex.Message),
-                        StringConstants.DeleteCategoryErrorTitle,
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
+                        StringConstants.DeleteCategoryErrorTitle);
                 }
             }
         }

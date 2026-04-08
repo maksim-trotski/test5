@@ -1,10 +1,8 @@
-﻿using _5Elem.Client.Dialogs;
-using _5Elem.Client.Services;
+﻿using _5Elem.Client.Services;
 using _5Elem.Client.ViewModels;
 using _5Elem.Client.Views;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Configuration;
 using System.Windows;
 
 namespace _5Elem.Client
@@ -35,13 +33,9 @@ namespace _5Elem.Client
 
             services.AddTransient<MainViewModel>();
             services.AddTransient<LoginViewModel>();
-            services.AddTransient<CategoryDialogViewModel>();
-            services.AddTransient<ProductDialogViewModel>();
 
             services.AddTransient<MainWindow>();
             services.AddTransient<LoginWindow>();
-            services.AddTransient<CategoryDialog>();
-            services.AddTransient<ProductDialog>();
 
             _serviceProvider = services.BuildServiceProvider();
 

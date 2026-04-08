@@ -1,9 +1,9 @@
 ﻿using _5Elem.Client.Dialogs;
+using _5Elem.Client.Helpers;
 using _5Elem.Client.Resources;
 using _5Elem.Client.Services;
 using _5Elem.Client.ViewModels.Base;
 using _5Elem.Shared.Models;
-using System.Windows;
 using System.Windows.Input;
 
 namespace _5Elem.Client.ViewModels
@@ -58,13 +58,11 @@ namespace _5Elem.Client.ViewModels
 
         private async Task ExecuteDeleteProduct()
         {
-            var result = MessageBox.Show(
+            var result = CustomMessageBoxHelper.ShowConfirm(
                 string.Format(StringConstants.DeleteProductConfirmation, _product.Name),
-                StringConstants.ConfirmationTitle,
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
+                StringConstants.ConfirmationTitle);
 
-            if (result == MessageBoxResult.Yes)
+            if (result)
             {
                 await DeleteProductAsync();
             }
@@ -84,20 +82,16 @@ namespace _5Elem.Client.ViewModels
                 }
                 else
                 {
-                    MessageBox.Show(
+                    CustomMessageBoxHelper.ShowError(
                         StringConstants.DeleteProductError,
-                        StringConstants.DeleteProductErrorTitle,
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
+                        StringConstants.DeleteProductErrorTitle);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
+                CustomMessageBoxHelper.ShowError(
                     string.Format(StringConstants.DeleteProductError, ex.Message),
-                    StringConstants.DeleteProductErrorTitle,
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                    StringConstants.DeleteProductErrorTitle);
             }
         }
 
@@ -122,20 +116,16 @@ namespace _5Elem.Client.ViewModels
                 }
                 else
                 {
-                    MessageBox.Show(
+                    CustomMessageBoxHelper.ShowError(
                         StringConstants.ProductSaveError,
-                        StringConstants.DeleteProductErrorTitle,
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
+                        StringConstants.DeleteProductErrorTitle);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
+                CustomMessageBoxHelper.ShowError(
                     string.Format(StringConstants.ErrorPrefix, ex.Message),
-                    StringConstants.DeleteProductErrorTitle,
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                    StringConstants.DeleteProductErrorTitle);
             }
         }
     }
