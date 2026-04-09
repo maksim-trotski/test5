@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Win32;
 using System.IO;
+using System.Windows;
 using System.Windows.Input;
 
 namespace _5Elem.Client.ViewModels
@@ -14,6 +15,7 @@ namespace _5Elem.Client.ViewModels
     {
         private readonly ApiService _apiService;
         private CategoryCreateDto _category;
+        private bool _isLoading;
         private string _selectedImagePath;
         private string _imageName;
         private string _errorMessage;
@@ -65,7 +67,11 @@ namespace _5Elem.Client.ViewModels
             }
         }
 
-        public bool IsLoading { get; set; } = false;
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set => SetProperty(ref _isLoading, value);
+        }
 
         public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
         public bool CanSave => !IsLoading && !string.IsNullOrWhiteSpace(Category?.Name);
@@ -89,7 +95,7 @@ namespace _5Elem.Client.ViewModels
             }
         }
 
-        private async void ExecuteSave()
+        private async Task ExecuteSave()
         {
             if (IsLoading) return;
 
@@ -101,18 +107,29 @@ namespace _5Elem.Client.ViewModels
                 if (!string.IsNullOrEmpty(_selectedImagePath))
                 {
                     var fileInfo = new FileInfo(_selectedImagePath);
-                    var fileBytes = File.ReadAllBytes(_selectedImagePath);
-                    var stream = new MemoryStream(fileBytes);
 
-                    Category.ImageFile = new FormFile(stream, 0, fileBytes.Length,
-                        fileInfo.Name, fileInfo.Name)
-                    {
-                        Headers = new HeaderDictionary(),
-                        ContentType = GetContentType(fileInfo.Extension)
-                    };
+                    var fileStream = new FileStream(
+                        _selectedImagePath,
+                        FileMode.Open,
+                        FileAccess.Read,
+                        FileShare.Read,
+                        8192,
+                        useAsync: true);
+
+                        Category.ImageFile = new FormFile(
+                            fileStream,
+                            0,
+                            fileStream.Length,
+                            fileInfo.Name,
+                            fileInfo.Name)
+                        {
+                            Headers = new HeaderDictionary(),
+                            ContentType = GetContentType(fileInfo.Extension)
+                        };
                 }
 
                 CategoryDto result = null;
+
 
                 if (_editId.HasValue)
                 {
@@ -131,15 +148,13 @@ namespace _5Elem.Client.ViewModels
 
                 if (result != null)
                 {
-                    var window = System.Windows.Application.Current.Windows
-                        .OfType<System.Windows.Window>()
-                        .FirstOrDefault(w => w.DataContext == this);
-
-                    if (window != null)
+                    await Application.Current.Dispatcher.InvokeAsync(() =>
                     {
-                        window.DialogResult = true;
-                        window.Close();
-                    }
+                        var window = Application.Current.Windows
+                            .OfType<Window>()
+                            .FirstOrDefault(w => w.DataContext == this);
+                        window?.Close();
+                    });
                 }
                 else
                 {

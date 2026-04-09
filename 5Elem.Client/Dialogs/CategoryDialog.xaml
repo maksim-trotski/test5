@@ -11,9 +11,8 @@
 
     <Grid>
         <Border Background="{StaticResource DarkBackgroundBrush}" 
-                CornerRadius="{StaticResource CornerRadius}"
-                Padding="{StaticResource BorderPadding}">
-
+                    CornerRadius="{StaticResource CornerRadius}"
+                    Padding="{StaticResource BorderPadding}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -26,67 +25,77 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Text="{Binding Title}" 
-                           FontSize="{StaticResource TitleFontSize}" 
-                           FontWeight="Bold"
-                           Foreground="{StaticResource PrimaryBrush}"
-                           Margin="0,0,0,20"/>
+                               FontSize="{StaticResource TitleFontSize}" 
+                               FontWeight="Bold"
+                               Foreground="{StaticResource PrimaryBrush}"
+                               Margin="0,0,0,20"/>
 
                 <TextBox Text="{Binding Category.Name, UpdateSourceTrigger=PropertyChanged}" 
-                         Grid.Row="1"
-                         Style="{StaticResource ModernTextBox}"
-                         Margin="0,0,0,15"
-                         Tag="{StaticResource CategoryNamePlaceholder}"/>
-                
+                             Grid.Row="1"
+                             Style="{StaticResource ModernTextBox}"
+                             Margin="0,0,0,15"
+                             Tag="{StaticResource CategoryNamePlaceholder}"/>
+
                 <TextBox Text="{Binding Category.Description, UpdateSourceTrigger=PropertyChanged}" 
-                         Grid.Row="2"
-                         Style="{StaticResource ModernTextBox}"
-                         Margin="0,0,0,15"
-                         Tag="{StaticResource CategoryDescriptionPlaceholder}"
-                         Height="{StaticResource DescriptionHeight}"
-                         TextWrapping="Wrap"
-                         AcceptsReturn="True"/>
+                             Grid.Row="2"
+                             Style="{StaticResource ModernTextBox}"
+                             Margin="0,0,0,15"
+                             Tag="{StaticResource CategoryDescriptionPlaceholder}"
+                             Height="{StaticResource DescriptionHeight}"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"/>
 
                 <Button Content="{StaticResource SelectImageButton}"
-                        Grid.Row="3"
-                        Style="{StaticResource SecondaryButton}"
-                        Margin="0,0,0,10"
-                        Command="{Binding SelectImageCommand}"/>
+                            Grid.Row="3"
+                            Style="{StaticResource SecondaryButton}"
+                            Margin="0,0,0,10"
+                            Command="{Binding SelectImageCommand}"/>
 
                 <TextBlock Text="{Binding ImageName}" 
-                           Grid.Row="4"
-                           Foreground="{StaticResource TextSecondaryBrush}"
-                           Margin="0,0,0,20"
-                           TextWrapping="Wrap"/>
+                               Grid.Row="4"
+                               Foreground="{StaticResource TextSecondaryBrush}"
+                               Margin="0,0,0,20"
+                               TextWrapping="Wrap"/>
 
                 <TextBlock Text="{Binding ErrorMessage}" 
-                           Grid.Row="5"
-                           Foreground="{StaticResource ErrorBrush}"
-                           TextWrapping="Wrap"
-                           Margin="0,0,0,10"
-                           Visibility="{Binding HasError, Converter={StaticResource BoolToVisibility}}"/>
+                               Grid.Row="5"
+                               Foreground="{StaticResource ErrorBrush}"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,10"
+                               Visibility="{Binding HasError, Converter={StaticResource BoolToVisibility}}"/>
 
                 <StackPanel Grid.Row="6" 
-                            Orientation="Horizontal" 
-                            HorizontalAlignment="Right"
-                            Margin="0,20,0,0">
+                                Orientation="Horizontal" 
+                                HorizontalAlignment="Right"
+                                Margin="0,20,0,0">
 
                     <Button Content="{StaticResource CancelButton}" 
-                            Style="{StaticResource SecondaryButton}"
-                            Command="{Binding CancelCommand}"/>
+                                Style="{StaticResource SecondaryButton}"
+                                Command="{Binding CancelCommand}"/>
 
                     <Button Content="{StaticResource SaveButton}" 
-                            Style="{StaticResource PrimaryButton}"
-                            Margin="10,0,0,0"
-                            Command="{Binding SaveCommand}"/>
+                                Style="{StaticResource PrimaryButton}"
+                                Margin="10,0,0,0"
+                                Command="{Binding SaveCommand}"/>
                 </StackPanel>
 
                 <Button Content="{StaticResource CloseButtonText}"
-                        Style="{StaticResource CloseButton}"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Top"
-                        Margin="0,-20,0,0"
-                        Command="{Binding CancelCommand}"/>
+                            Style="{StaticResource CloseButton}"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Margin="0,-20,0,0"
+                            Command="{Binding CancelCommand}"/>
             </Grid>
+        </Border>
+
+        <Border Style="{StaticResource LoadingOverlay}" 
+                Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibility}}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ProgressBar Style="{StaticResource CircularProgressBar}" 
+                         IsIndeterminate="True"
+                         Width="100" 
+                         Height="100"/>
+            </StackPanel>
         </Border>
     </Grid>
 </Window>

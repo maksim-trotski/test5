@@ -117,5 +117,15 @@
 
             </Grid>
         </Border>
+
+        <Border Style="{StaticResource LoadingOverlay}" 
+                Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibility}}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ProgressBar Style="{StaticResource CircularProgressBar}" 
+                         IsIndeterminate="True"
+                         Width="100" 
+                         Height="100"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>

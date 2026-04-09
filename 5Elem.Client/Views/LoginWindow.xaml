@@ -38,11 +38,11 @@
                         Command="{Binding CloseCommand}"/>
 
                 <TextBlock Text="{StaticResource AppTitle}" 
-                           FontSize="{StaticResource TitleFontSize}"
-                           FontWeight="Bold"
-                           Foreground="{StaticResource PrimaryBrush}"
-                           HorizontalAlignment="Center"
-                           Margin="0,0,0,30"/>
+                            FontSize="{StaticResource TitleFontSize}"
+                            FontWeight="Bold"
+                            Foreground="{StaticResource PrimaryBrush}"
+                            HorizontalAlignment="Center"
+                            Margin="0,0,0,30"/>
 
                 <StackPanel Grid.Row="1" Orientation="Horizontal" 
                             HorizontalAlignment="Center" Margin="0,0,0,30">
@@ -64,11 +64,11 @@
                     </Button>
 
                     <TextBlock Text="/" 
-                               Foreground="{StaticResource TextSecondaryBrush}"
-                               HorizontalAlignment="Center"
-                               Margin="5,0"
-                               VerticalAlignment="Center"
-                               FontSize="{StaticResource ButtonFontSize}"/>
+                                Foreground="{StaticResource TextSecondaryBrush}"
+                                HorizontalAlignment="Center"
+                                Margin="5,0"
+                                VerticalAlignment="Center"
+                                FontSize="{StaticResource ButtonFontSize}"/>
 
                     <Button Content="{StaticResource RegisterTab}" 
                             Command="{Binding SwitchModeCommand}"
@@ -91,17 +91,17 @@
                 <StackPanel Grid.Row="2" 
                             Visibility="{Binding IsLoginMode, Converter={StaticResource BoolToVisibility}}">
                     <TextBox Text="{Binding LoginModel.Username, UpdateSourceTrigger=PropertyChanged}" 
-                             Style="{StaticResource ModernTextBox}"
-                             Margin="0,0,0,15"
-                             Tag="{StaticResource UsernamePlaceholder}"
-                             FontSize="{StaticResource BodyFontSize}"/>
+                                Style="{StaticResource ModernTextBox}"
+                                Margin="0,0,0,15"
+                                Tag="{StaticResource UsernamePlaceholder}"
+                                FontSize="{StaticResource BodyFontSize}"/>
 
                     <PasswordBox x:Name="LoginPassword" 
-                                 Style="{StaticResource ModernPasswordBox}"
-                                 Margin="0,0,0,25"
-                                 Tag="{StaticResource PasswordPlaceholder}"
-                                 PasswordChanged="PasswordChanged"
-                                 FontSize="{StaticResource BodyFontSize}"/>
+                                    Style="{StaticResource ModernPasswordBox}"
+                                    Margin="0,0,0,25"
+                                    Tag="{StaticResource PasswordPlaceholder}"
+                                    PasswordChanged="PasswordChanged"
+                                    FontSize="{StaticResource BodyFontSize}"/>
 
                     <Button Content="{StaticResource LoginButtonText}"
                             Style="{StaticResource PrimaryButton}"
@@ -112,30 +112,30 @@
                 <StackPanel Grid.Row="2" 
                             Visibility="{Binding IsLoginMode, Converter={StaticResource InverseBoolToVisibility}}">
                     <TextBox Text="{Binding LoginModel.Username, UpdateSourceTrigger=PropertyChanged}" 
-                             Style="{StaticResource ModernTextBox}"
-                             Margin="0,0,0,15"
-                             Tag="{StaticResource UsernamePlaceholder}"
-                             FontSize="{StaticResource BodyFontSize}"/>
+                                Style="{StaticResource ModernTextBox}"
+                                Margin="0,0,0,15"
+                                Tag="{StaticResource UsernamePlaceholder}"
+                                FontSize="{StaticResource BodyFontSize}"/>
 
                     <TextBox Text="{Binding LoginModel.Email, UpdateSourceTrigger=PropertyChanged}" 
-                             Style="{StaticResource ModernTextBox}"
-                             Margin="0,0,0,15"
-                             Tag="{StaticResource EmailPlaceholder}"
-                             FontSize="{StaticResource BodyFontSize}"/>
+                                Style="{StaticResource ModernTextBox}"
+                                Margin="0,0,0,15"
+                                Tag="{StaticResource EmailPlaceholder}"
+                                FontSize="{StaticResource BodyFontSize}"/>
 
                     <PasswordBox x:Name="RegisterPassword"
-                                 Style="{StaticResource ModernPasswordBox}"
-                                 Margin="0,0,0,15"
-                                 Tag="{StaticResource PasswordPlaceholder}"
-                                 PasswordChanged="PasswordChanged"
-                                 FontSize="{StaticResource BodyFontSize}"/>
+                                    Style="{StaticResource ModernPasswordBox}"
+                                    Margin="0,0,0,15"
+                                    Tag="{StaticResource PasswordPlaceholder}"
+                                    PasswordChanged="PasswordChanged"
+                                    FontSize="{StaticResource BodyFontSize}"/>
 
                     <PasswordBox x:Name="RegisterConfirmPassword" 
-                                 Style="{StaticResource ModernPasswordBox}"
-                                 Margin="0,0,0,25"
-                                 Tag="{StaticResource ConfirmPasswordPlaceholder}"
-                                 PasswordChanged="ConfirmPasswordChanged"
-                                 FontSize="{StaticResource BodyFontSize}"/>
+                                    Style="{StaticResource ModernPasswordBox}"
+                                    Margin="0,0,0,25"
+                                    Tag="{StaticResource ConfirmPasswordPlaceholder}"
+                                    PasswordChanged="ConfirmPasswordChanged"
+                                    FontSize="{StaticResource BodyFontSize}"/>
 
                     <Button Content="{StaticResource RegisterButtonText}"
                             Style="{StaticResource PrimaryButton}"
@@ -144,12 +144,12 @@
                 </StackPanel>
 
                 <TextBlock Text="{Binding ErrorMessage}" 
-                           Grid.Row="3"
-                           Foreground="Red"
-                           TextWrapping="Wrap"
-                           Margin="0,10,0,0"
-                           HorizontalAlignment="Center"
-                           FontSize="{StaticResource SmallFontSize}"/>
+                            Grid.Row="3"
+                            Foreground="Red"
+                            TextWrapping="Wrap"
+                            Margin="0,10,0,0"
+                            HorizontalAlignment="Center"
+                            FontSize="{StaticResource SmallFontSize}"/>
             </Grid>
         </Border>
     </Grid>

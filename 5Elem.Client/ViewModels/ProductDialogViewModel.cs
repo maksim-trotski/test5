@@ -184,11 +184,21 @@ namespace _5Elem.Client.ViewModels
                 if (!string.IsNullOrEmpty(_selectedImagePath))
                 {
                     var fileInfo = new FileInfo(_selectedImagePath);
-                    var fileBytes = File.ReadAllBytes(_selectedImagePath);
-                    var stream = new MemoryStream(fileBytes);
 
-                    Product.ImageFile = new FormFile(stream, 0, fileBytes.Length,
-                        fileInfo.Name, fileInfo.Name)
+                    var fileStream = new FileStream(
+                        _selectedImagePath,
+                        FileMode.Open,
+                        FileAccess.Read,
+                        FileShare.Read,
+                        8192,
+                        useAsync: true);
+
+                    Product.ImageFile = new FormFile(
+                        fileStream,
+                        0,
+                        fileStream.Length,
+                        fileInfo.Name,
+                        fileInfo.Name)
                     {
                         Headers = new HeaderDictionary(),
                         ContentType = GetContentType(fileInfo.Extension)

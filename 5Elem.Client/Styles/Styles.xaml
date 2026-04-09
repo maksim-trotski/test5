@@ -455,5 +455,62 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
+
+    <Style x:Key="CircularProgressBar" TargetType="ProgressBar">
+        <Setter Property="Width" Value="50"/>
+        <Setter Property="Height" Value="50"/>
+        <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
+        <Setter Property="Background" Value="{StaticResource TextSecondaryBrush}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ProgressBar">
+                    <Grid>
+                        <Ellipse Width="{TemplateBinding Width}" 
+                             Height="{TemplateBinding Height}" 
+                             Stroke="{TemplateBinding Background}" 
+                             StrokeThickness="3"
+                             Opacity="0.3"/>
+
+                        <Ellipse Width="{TemplateBinding Width}" 
+                             Height="{TemplateBinding Height}" 
+                             Stroke="{TemplateBinding Foreground}" 
+                             StrokeThickness="3"
+                             StrokeDashArray="4,4">
+                            <Ellipse.RenderTransform>
+                                <RotateTransform x:Name="PART_Spinner" CenterX="50" CenterY="50"/>
+                            </Ellipse.RenderTransform>
+                        </Ellipse>
+
+                        <TextBlock x:Name="PART_Text"
+                               Text="{TemplateBinding Tag}"
+                               Foreground="{StaticResource TextPrimaryBrush}"
+                               FontSize="12"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Margin="0,60,0,0"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsIndeterminate" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <DoubleAnimation Storyboard.TargetName="PART_Spinner"
+                                                     Storyboard.TargetProperty="Angle"
+                                                     From="0" To="360" Duration="0:0:1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="LoadingOverlay" TargetType="Border">
+        <Setter Property="Background" Value="#80000000"/>
+        <Setter Property="Visibility" Value="Collapsed"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+    </Style>
 </ResourceDictionary>

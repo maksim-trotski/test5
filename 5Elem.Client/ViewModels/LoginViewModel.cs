@@ -3,7 +3,6 @@ using _5Elem.Client.Resources;
 using _5Elem.Client.Services;
 using _5Elem.Client.ViewModels.Base;
 using Microsoft.Extensions.DependencyInjection;
-using System.Buffers.Text;
 using System.Windows;
 using System.Windows.Input;
 
