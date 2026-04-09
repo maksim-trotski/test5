@@ -77,10 +77,10 @@
                             <Style TargetType="Button" BasedOn="{StaticResource TabButton}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsLoginMode}" Value="True">
-                                        <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
+                                        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding IsLoginMode}" Value="False">
-                                        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                                        <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
